@@ -168,6 +168,13 @@
         yourAnswer:     { en: "Your answer", es: "Tu respuesta" },
         copyBtn:        { en: "Copy / Compile Answers", es: "Copiar / Compilar Respuestas" },
         copied:         { en: "Copied! Paste into your Google Doc.", es: "¡Copiado! Pégalo en tu Google Doc." },
+        showModelsBtn:  { en: "Show model answers", es: "Mostrar respuestas modelo" },
+        hideModelsBtn:  { en: "Hide model answers", es: "Ocultar respuestas modelo" },
+        modelsLockedHint:{ en: "Finish your answers and click Copy / Compile above to unlock model answers.",
+                           es: "Termina tus respuestas y haz clic en Copiar / Compilar arriba para desbloquear las respuestas modelo." },
+        modelAnswerLabel:{ en: "Model answer (for self-check)", es: "Respuesta modelo (para autoevaluación)" },
+        modelDisclaimer: { en: "These are example strong responses. Your own answer may use different wording or emphasis and still be excellent — compare your reasoning, not your exact words.",
+                           es: "Estos son ejemplos de respuestas sólidas. Tu respuesta puede usar diferentes palabras o énfasis y seguir siendo excelente — compara tu razonamiento, no tus palabras exactas." },
         copyFailed:     { en: "Copy failed — select and copy manually from the box below.",
                           es: "Error al copiar — selecciona y copia manualmente del cuadro de abajo." },
         recall:         { en: "Application (math)", es: "Aplicación (matemáticas)" },
@@ -216,22 +223,34 @@
       const QUESTIONS = [
         { id: 'q1', level: 'recall',
           en: "An ocean at pH 8.1 has [H⁺] ≈ 7.9 × 10⁻⁹ M. If pH drops to 7.7 by 2100, what will [H⁺] be? Express the change as a percent increase from today's value. Show your reasoning.",
-          es: "Un océano con pH 8.1 tiene [H⁺] ≈ 7.9 × 10⁻⁹ M. Si el pH baja a 7.7 para 2100, ¿cuál será [H⁺]? Expresa el cambio como un aumento porcentual respecto al valor de hoy. Muestra tu razonamiento." },
+          es: "Un océano con pH 8.1 tiene [H⁺] ≈ 7.9 × 10⁻⁹ M. Si el pH baja a 7.7 para 2100, ¿cuál será [H⁺]? Expresa el cambio como un aumento porcentual respecto al valor de hoy. Muestra tu razonamiento.",
+          modelEn: "pH = −log[H⁺], so [H⁺] = 10^(−pH). At pH 7.7, [H⁺] = 10⁻⁷·⁷ ≈ 2.0 × 10⁻⁸ M. Because pH is logarithmic, a drop of 0.4 units means [H⁺] multiplies by 10^0.4 ≈ 2.51. Percent increase = (2.0 × 10⁻⁸ − 7.9 × 10⁻⁹) / 7.9 × 10⁻⁹ × 100 ≈ 151%. Key insight: a seemingly small pH change of 0.4 units is actually a ~150% increase in hydrogen ion concentration — the logarithmic scale hides the biological magnitude of ocean acidification.",
+          modelEs: "pH = −log[H⁺], entonces [H⁺] = 10^(−pH). A pH 7.7, [H⁺] = 10⁻⁷·⁷ ≈ 2.0 × 10⁻⁸ M. Como el pH es logarítmico, una caída de 0.4 unidades significa que [H⁺] se multiplica por 10^0.4 ≈ 2.51. Aumento porcentual = (2.0 × 10⁻⁸ − 7.9 × 10⁻⁹) / 7.9 × 10⁻⁹ × 100 ≈ 151%. Idea clave: un cambio de pH aparentemente pequeño de 0.4 unidades es en realidad un aumento del ~150% en la concentración de iones hidrógeno — la escala logarítmica oculta la magnitud biológica de la acidificación del océano." },
         { id: 'q2', level: 'analysis',
           en: "Imagine a graph with aragonite saturation (Ω_arag) on the x-axis and percent larval survival on the y-axis, using data from the Whiskey Creek hatchery. Describe the shape of the curve you would expect, and explain why Ω_arag — not pH alone — is the more predictive variable for calcifier survival.",
-          es: "Imagina una gráfica con la saturación de aragonita (Ω_arag) en el eje x y el porcentaje de supervivencia larval en el eje y, usando datos del criadero Whiskey Creek. Describe la forma que esperarías que tuviera la curva y explica por qué Ω_arag — y no solo el pH — es la variable más predictiva para la supervivencia de los calcificadores." },
+          es: "Imagina una gráfica con la saturación de aragonita (Ω_arag) en el eje x y el porcentaje de supervivencia larval en el eje y, usando datos del criadero Whiskey Creek. Describe la forma que esperarías que tuviera la curva y explica por qué Ω_arag — y no solo el pH — es la variable más predictiva para la supervivencia de los calcificadores.",
+          modelEn: "The curve would be sigmoidal (S-shaped): very low survival below Ω ≈ 1.4, a steep transition between Ω ≈ 1.5 and 1.8, and a high plateau above Ω ≈ 2.0. This threshold behavior reflects a biological tipping point near Ω ≈ 1.7. Ω_arag is more predictive than pH because it directly measures the product [Ca²⁺][CO₃²⁻] relative to the solubility of aragonite — it tells us whether shells will precipitate (Ω > 1) or dissolve (Ω < 1). pH only measures [H⁺]. Two waters can share the same pH but have very different carbonate availability depending on total alkalinity and dissolved inorganic carbon, so pH alone does not predict whether larvae can actually build shells.",
+          modelEs: "La curva sería sigmoidea (forma de S): supervivencia muy baja por debajo de Ω ≈ 1.4, una transición abrupta entre Ω ≈ 1.5 y 1.8, y una meseta alta por encima de Ω ≈ 2.0. Este comportamiento umbral refleja un punto de inflexión biológico cerca de Ω ≈ 1.7. Ω_arag es más predictivo que el pH porque mide directamente el producto [Ca²⁺][CO₃²⁻] respecto a la solubilidad de la aragonita — nos dice si las conchas se formarán (Ω > 1) o se disolverán (Ω < 1). El pH solo mide [H⁺]. Dos aguas pueden tener el mismo pH pero diferente disponibilidad de carbonato según la alcalinidad total y el carbono inorgánico disuelto, así que el pH por sí solo no predice si las larvas pueden formar conchas." },
         { id: 'q3', level: 'analysis',
           en: "A pteropod lives in the Southern Ocean, where cold temperatures already lower aragonite saturation. Predict how climate change will affect this organism relative to a tropical coral. Justify your answer using two separate mechanisms.",
-          es: "Un pterópodo vive en el Océano Austral, donde las bajas temperaturas ya reducen la saturación de aragonita. Predice cómo el cambio climático afectará a este organismo en comparación con un coral tropical. Justifica tu respuesta usando dos mecanismos distintos." },
+          es: "Un pterópodo vive en el Océano Austral, donde las bajas temperaturas ya reducen la saturación de aragonita. Predice cómo el cambio climático afectará a este organismo en comparación con un coral tropical. Justifica tu respuesta usando dos mecanismos distintos.",
+          modelEn: "The pteropod will cross the critical Ω_arag < 1 threshold earlier and more severely than a tropical coral. Mechanism 1 — gas solubility: CO₂ is more soluble in cold water (Henry's Law), so polar seawater absorbs atmospheric CO₂ faster, producing more H⁺ and consuming more CO₃²⁻, which drives Ω_arag down sooner in high latitudes. Mechanism 2 — shell mineralogy and life history: pteropods build thin, external aragonite shells exposed directly to seawater, while tropical corals calcify within a semi-isolated calcifying fluid whose chemistry they can partially regulate. The pteropod has less physiological buffering, so a given drop in Ω_arag damages it more than it damages a coral at the same saturation state.",
+          modelEs: "El pterópodo cruzará el umbral crítico Ω_arag < 1 antes y de forma más severa que un coral tropical. Mecanismo 1 — solubilidad de gases: el CO₂ es más soluble en agua fría (Ley de Henry), por lo que el agua polar absorbe CO₂ atmosférico más rápido, produciendo más H⁺ y consumiendo más CO₃²⁻, lo que reduce Ω_arag antes en latitudes altas. Mecanismo 2 — mineralogía de la concha e historia de vida: los pterópodos forman conchas externas de aragonita delgadas expuestas directamente al agua de mar, mientras que los corales tropicales calcifican dentro de un fluido de calcificación semi-aislado cuya química pueden regular parcialmente. El pterópodo tiene menos capacidad de amortiguación fisiológica, así que una misma caída de Ω_arag lo daña más que a un coral al mismo estado de saturación." },
         { id: 'q4', level: 'synthesis',
           en: "Hatchery operators now draw intake water in the afternoon rather than at dawn. Using your knowledge of photosynthesis and respiration in phytoplankton, explain why afternoon water has a higher pH.",
-          es: "Los criaderos ahora toman el agua por la tarde en vez de al amanecer. Usando tus conocimientos de fotosíntesis y respiración en el fitoplancton, explica por qué el agua de la tarde tiene un pH más alto." },
+          es: "Los criaderos ahora toman el agua por la tarde en vez de al amanecer. Usando tus conocimientos de fotosíntesis y respiración en el fitoplancton, explica por qué el agua de la tarde tiene un pH más alto.",
+          modelEn: "During daylight, phytoplankton photosynthesize and consume dissolved CO₂ from the water (6 CO₂ + 6 H₂O → C₆H₁₂O₆ + 6 O₂). Removing CO₂ shifts the carbonate equilibrium (CO₂ + H₂O ⇌ H₂CO₃ ⇌ HCO₃⁻ + H⁺) to the left, reducing [H⁺] and raising pH. By afternoon, hours of net photosynthesis have drawn CO₂ down to its daily minimum, so pH (and Ω_arag) are at their daily maximum. At dawn, the opposite is true: the water has experienced a full night of respiration by phytoplankton, zooplankton, and bacteria (producing CO₂), with no photosynthesis to counter it, so pH is at its daily low. Timing intake to the afternoon lets larvae develop in the least corrosive water of the day.",
+          modelEs: "Durante el día, el fitoplancton hace fotosíntesis y consume CO₂ disuelto del agua (6 CO₂ + 6 H₂O → C₆H₁₂O₆ + 6 O₂). Retirar CO₂ desplaza el equilibrio de carbonatos (CO₂ + H₂O ⇌ H₂CO₃ ⇌ HCO₃⁻ + H⁺) hacia la izquierda, reduciendo [H⁺] y aumentando el pH. Por la tarde, horas de fotosíntesis neta han reducido el CO₂ a su mínimo diario, así que el pH (y Ω_arag) están en su máximo diario. Al amanecer, ocurre lo contrario: el agua ha pasado una noche entera de respiración del fitoplancton, zooplancton y bacterias (produciendo CO₂) sin fotosíntesis que la contrarreste, así que el pH está en su mínimo diario. Programar la toma por la tarde permite que las larvas se desarrollen en el agua menos corrosiva del día." },
         { id: 'q5', level: 'synthesis',
           en: "The hatchery saved larvae in production tanks, but wild oyster beds in Netarts Bay still struggle. Explain this discrepancy and discuss what it reveals about the limits of technological adaptation to ocean acidification.",
-          es: "El criadero salvó las larvas en los tanques de producción, pero los bancos de ostras silvestres en la Bahía de Netarts siguen en problemas. Explica esta discrepancia y discute lo que revela sobre los límites de la adaptación tecnológica a la acidificación del océano." },
+          es: "El criadero salvó las larvas en los tanques de producción, pero los bancos de ostras silvestres en la Bahía de Netarts siguen en problemas. Explica esta discrepancia y discute lo que revela sobre los límites de la adaptación tecnológica a la acidificación del océano.",
+          modelEn: "The hatchery works because operators can control a small volume of water: they buffer it with Na₂CO₃, monitor Ω_arag with real-time sensors, and time intake to the afternoon when pH is highest. None of these interventions scale to an open ecosystem — you cannot buffer an entire bay, let alone an ocean. Wild oysters are exposed to the full daily and seasonal swings in carbonate chemistry, including upwelling of deep, CO₂-rich water, with no refuge. This reveals that technological adaptation is only a local bandage: it can protect specific commercial products but cannot preserve the community-level ecological functions oysters provide (filtration, reef habitat, larval supply to the wider coast). The only durable solution for wild ecosystems is reducing atmospheric CO₂ at the source.",
+          modelEs: "El criadero funciona porque los operadores pueden controlar un volumen pequeño de agua: la amortiguan con Na₂CO₃, monitorean Ω_arag con sensores en tiempo real y toman agua por la tarde cuando el pH es más alto. Ninguna de estas intervenciones es escalable a un ecosistema abierto — no puedes amortiguar una bahía entera, mucho menos el océano. Las ostras silvestres están expuestas a la variabilidad completa diaria y estacional de la química de carbonatos, incluyendo la surgencia de aguas profundas ricas en CO₂, sin refugio. Esto revela que la adaptación tecnológica es solo un parche local: puede proteger productos comerciales específicos pero no puede preservar las funciones ecológicas comunitarias que proveen las ostras (filtración, hábitat de arrecife, suministro de larvas a la costa más amplia). La única solución duradera para los ecosistemas silvestres es reducir el CO₂ atmosférico en la fuente." },
         { id: 'q6', level: 'frq',
           en: "FRQ: Construct an argument connecting ocean acidification to the loss of biodiversity on a coral reef. Your argument should move explicitly from chemistry → physiology → population → community. Use at least one specific mechanism at each level.",
-          es: "RLA: Construye un argumento que conecte la acidificación del océano con la pérdida de biodiversidad en un arrecife de coral. Tu argumento debe moverse explícitamente de química → fisiología → población → comunidad. Usa al menos un mecanismo específico en cada nivel." },
+          es: "RLA: Construye un argumento que conecte la acidificación del océano con la pérdida de biodiversidad en un arrecife de coral. Tu argumento debe moverse explícitamente de química → fisiología → población → comunidad. Usa al menos un mecanismo específico en cada nivel.",
+          modelEn: "Chemistry: Atmospheric CO₂ dissolves in seawater to form H₂CO₃, which dissociates into HCO₃⁻ and H⁺. The extra H⁺ reacts with carbonate ions (H⁺ + CO₃²⁻ → HCO₃⁻), reducing [CO₃²⁻] and lowering aragonite saturation (Ω_arag). Physiology: Corals precipitate aragonite (CaCO₃) in their calcifying fluid using CO₃²⁻. As Ω_arag falls, corals must spend more ATP pumping H⁺ out of the calcifying space to maintain supersaturation, leaving less energy for growth and reproduction. Skeletal deposition slows and becomes more brittle. Population: Slower calcification reduces recruitment of juvenile polyps and weakens adult colonies, so coral mortality from storms, disease, and bleaching (often synergistic with OA) outpaces replacement. Coral cover declines. Community: Because corals are foundation species — they build the physical, three-dimensional reef habitat — their loss flattens the reef. Fish and invertebrates that depend on reef crevices for shelter, foraging, and nursery habitat lose their niches. Biodiversity collapses, not just because corals are gone, but because the structural complexity they created is gone.",
+          modelEs: "Química: El CO₂ atmosférico se disuelve en el agua de mar formando H₂CO₃, que se disocia en HCO₃⁻ y H⁺. El H⁺ adicional reacciona con los iones carbonato (H⁺ + CO₃²⁻ → HCO₃⁻), reduciendo [CO₃²⁻] y bajando la saturación de aragonita (Ω_arag). Fisiología: Los corales depositan aragonita (CaCO₃) en su fluido de calcificación usando CO₃²⁻. A medida que Ω_arag cae, los corales deben gastar más ATP bombeando H⁺ fuera del espacio de calcificación para mantener la sobresaturación, dejando menos energía para el crecimiento y la reproducción. La deposición esquelética se vuelve más lenta y frágil. Población: Una calcificación más lenta reduce el reclutamiento de pólipos juveniles y debilita las colonias adultas, así que la mortalidad coralina por tormentas, enfermedades y blanqueamiento (a menudo sinérgico con la acidificación) supera al reemplazo. La cobertura coralina disminuye. Comunidad: Como los corales son especies fundacionales — construyen el hábitat físico tridimensional del arrecife — su pérdida aplana el arrecife. Peces e invertebrados que dependen de las grietas del arrecife para refugio, alimentación y cría pierden sus nichos. La biodiversidad colapsa, no solo porque los corales desaparezcan, sino porque la complejidad estructural que creaban desaparece." },
       ];
 
       const pH_TIMELINE = [
@@ -264,6 +283,8 @@
         );
         const [copyState, setCopyState] = useState(null);
         const [fallbackText, setFallbackText] = useState('');
+        const [modelsUnlocked, setModelsUnlocked] = useState(false);
+        const [showModels, setShowModels] = useState(false);
 
         const t = (k) => (T[k] ? T[k][lang] : k);
 
@@ -285,6 +306,7 @@
 
         const compileAnswers = () => {
           if (!name.trim()) { setCopyState('noName'); return; }
+          setModelsUnlocked(true);
           const today = new Date().toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US');
           const header = lang === 'es'
             ? `Acidificación del Océano — Preguntas de Desafío\nNombre: ${name}\nPeríodo: ${period}\nFecha: ${today}\n\n`
@@ -622,14 +644,34 @@
                     <textarea value={answers[q.id]} onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })}
                       rows={4} className="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none resize-y" />
                   </label>
+                  {modelsUnlocked && showModels && (
+                    <div className="mt-2 bg-gradient-to-br from-indigo-50 to-sky-50 border border-indigo-200 rounded-lg p-4">
+                      <div className="text-xs font-semibold uppercase tracking-wide text-indigo-700 mb-1">{t('modelAnswerLabel')}</div>
+                      <p className="text-sm text-slate-800 leading-relaxed whitespace-pre-line">{lang === 'es' ? q.modelEs : q.modelEn}</p>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
             <div className="pt-2">
-              <button onClick={compileAnswers}
-                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 text-white font-semibold shadow hover:bg-emerald-700 flex items-center justify-center gap-2 text-lg">
-                <ClipboardCheck size={20} /> {t('copyBtn')}
-              </button>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button onClick={compileAnswers}
+                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 text-white font-semibold shadow hover:bg-emerald-700 flex items-center justify-center gap-2 text-lg">
+                  <ClipboardCheck size={20} /> {t('copyBtn')}
+                </button>
+                <button onClick={() => setShowModels((s) => !s)}
+                  disabled={!modelsUnlocked}
+                  title={!modelsUnlocked ? t('modelsLockedHint') : ''}
+                  className={`w-full sm:w-auto px-6 py-3 rounded-xl font-semibold shadow flex items-center justify-center gap-2 text-lg transition ${modelsUnlocked ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-slate-200 text-slate-400 cursor-not-allowed'}`}>
+                  <Sparkles size={20} /> {showModels ? t('hideModelsBtn') : t('showModelsBtn')}
+                </button>
+              </div>
+              {!modelsUnlocked && (
+                <p className="mt-2 text-xs text-slate-500 italic">{t('modelsLockedHint')}</p>
+              )}
+              {modelsUnlocked && showModels && (
+                <p className="mt-2 text-xs text-slate-600 italic">{t('modelDisclaimer')}</p>
+              )}
               {copyState === 'ok' && (
                 <div className="mt-3 flex items-center gap-2 text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-2">
                   <CheckCircle2 size={20} /> {t('copied')}
